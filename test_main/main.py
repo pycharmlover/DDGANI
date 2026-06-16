@@ -10,7 +10,6 @@ import json
 from sklearn.model_selection import train_test_split
 from torch import optim, nn
 from torch.utils.data import TensorDataset, DataLoader
-sys.path.extend(['/home/extra_home/lc/DDGANI-master/DDGANI-master', '/home/extra_home/lc/DDGANI-master/DDGANI-master/utils','/home/extra_home/lc/DDGANI-master/DDGANI-master/BaseLine'])
 
 import utils.util as util
 from param.data_index import get_data_index
