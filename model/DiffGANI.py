@@ -4,8 +4,9 @@ import torch
 import random
 from BaseLine import Mean
 from utils.get_attr_attn import get_attr_map_Null_kendall
-from model import Diffusion, Discriminator_model
+from model import Diffusion_CFD, Diffusion_FD, Discriminator_model
 from model.CFD_model import get_CFD_model_Tree, get_CFD_model_Tree
+from model.FD_model import get_FD_model_Tree
 from utils.util import sort_corr, init_attn_2, categorical_to_code, Data_convert, get_M_by_data_m, get_number_data_mu_var
 
 def softmax(series):
@@ -40,8 +41,10 @@ def get_Diff_acc_RMSE(nan_data, path, miss_rate, miss_data, enc, data_m, categor
     number_data_mu_var = get_number_data_mu_var(zero_feed_data_code, M_tensor, fields, device)
     row_indices = torch.nonzero(torch.all(M_tensor == 1, dim=1)).squeeze().tolist()
     true_data_code = zero_feed_data_code[row_indices]
-
-    if args.UseCFD == "True":
+    if args.UseFD == "True":
+        print("UseFD")
+        model_list = get_FD_model_Tree(miss_data, data_m, categorical_cols, zero_feed_data_code, fields, device, sort_corr_dict)
+    elif args.UseCFD == "True":
         print("UseCFD")
         model_list = get_CFD_model_Tree(miss_data, data_m, categorical_cols, zero_feed_data_code, fields, device, sort_corr_dict)
     else:
@@ -53,15 +56,30 @@ def get_Diff_acc_RMSE(nan_data, path, miss_rate, miss_data, enc, data_m, categor
     latent_dim = input_dim // 2
     torch.manual_seed(3407)
     num_steps = param['T']
-    diffusion = Diffusion.Diffusion(input_dim, input_dim, input_dim, num_steps + 1)
-    ema = Diffusion.EMA(decay=0.99)
-    ema.register(diffusion)
-    Discriminator = Discriminator_model.D(input_dim, latent_dim, d_input_dim)
-    Discriminator_denoise_x = Discriminator_model.Discriminator_noise_x(input_dim * 2, latent_dim, d_input_dim,num_steps + 1)
-    Generator_x0 = Diffusion.Generator_x0(input_dim, input_dim * 2, input_dim, num_steps + 1, fields)
-    impute_data = Diffusion.train_diffusion_discriminator(Discriminator, Generator_x0, Discriminator_denoise_x, model_list,
-                                            num_steps, param["epochs"], param["lr"], param['batch_size'], param["loss_weight"], data_m,
-                                            impute_data_code, label_data, fields, value_cat, values,
-                                            attention_impute_data, enc, ori_data, continuous_cols, label_num, device,
-                                            args.UseLearner, args)
+    if args.UseFD == "True":
+        diffusion = Diffusion_FD.Diffusion(input_dim, input_dim, input_dim, num_steps + 1)
+        ema = Diffusion_FD.EMA(decay=0.99)
+        ema.register(diffusion)
+        Discriminator = Discriminator_model.D(input_dim, latent_dim, d_input_dim)
+        Discriminator_denoise_x = Discriminator_model.Discriminator_noise_x(input_dim * 2, latent_dim, d_input_dim,num_steps + 1)
+        Generator_x0 = Diffusion_FD.Generator_x0(input_dim, input_dim * 2, input_dim, num_steps + 1, fields)
+        impute_data = Diffusion_FD.train_diffusion_discriminator(Discriminator, Generator_x0, Discriminator_denoise_x, model_list,
+                                                num_steps, param["epochs"], param["lr"], param['batch_size'], param["loss_weight"], data_m,
+                                                impute_data_code, label_data, fields, value_cat, values,
+                                                attention_impute_data, enc, ori_data, continuous_cols, label_num, device,
+                                                args.UseLearner,
+                                                steps_per_epoch=param["steps_per_epoch"])
+    else:
+        diffusion = Diffusion_CFD.Diffusion(input_dim, input_dim, input_dim, num_steps + 1)
+        ema = Diffusion_CFD.EMA(decay=0.99)
+        ema.register(diffusion)
+        Discriminator = Discriminator_model.D(input_dim, latent_dim, d_input_dim)
+        Discriminator_denoise_x = Discriminator_model.Discriminator_noise_x(input_dim * 2, latent_dim, d_input_dim,num_steps + 1)
+        Generator_x0 = Diffusion_CFD.Generator_x0(input_dim, input_dim * 2, input_dim, num_steps + 1, fields)
+        impute_data = Diffusion_CFD.train_diffusion_discriminator(Discriminator, Generator_x0, Discriminator_denoise_x, model_list,
+                                                num_steps, param["epochs"], param["lr"], param['batch_size'], param["loss_weight"], data_m,
+                                                impute_data_code, label_data, fields, value_cat, values,
+                                                attention_impute_data, enc, ori_data, continuous_cols, label_num, device,
+                                                args.UseLearner, args)
+    
     return impute_data
