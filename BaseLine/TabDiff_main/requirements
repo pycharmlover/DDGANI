@@ -1,0 +1,8 @@
+wandb
+sdmetrics
+xgboost
+-i https://pypi.tuna.tsinghua.edu.cn/simple xgboost
+icecream
+category_encoders
+tomli_w
+xlrd

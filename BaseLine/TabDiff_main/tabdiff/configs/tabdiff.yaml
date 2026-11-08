@@ -1,0 +1,44 @@
+diffusion_params:
+  cat_scheduler: log_linear
+  edm_params:
+    sigma_data: 0.5
+  noise_dist: uniform_t
+  noise_dist_params:
+    P_mean: -1.2
+    P_std: 1.2
+  noise_schedule_params:
+    sigma_max: 80.0
+    sigma_min: 0.002
+  num_timesteps: 4
+  sampler_params:
+    second_order_correction: true
+    stochastic_sampler: true
+  scheduler: power_mean
+sample:
+  batch_size: 10000
+train:
+  main:
+    batch_size: 4096
+    check_val_every: 2
+unimodmlp_params:
+  activation: reglu
+  attention_dropout: 0.1
+  categories:
+  - 7
+  - 17
+  - 17
+  - 8
+  - 15
+  - 7
+  - 6
+  - 3
+  - 31
+  d_ffn_factor: 4
+  d_numerical: 5
+  d_token: 4
+  dim_t: 128
+  initialization: kaiming
+  num_layers: 3
+  prenormalization: true
+  residual_dropout: 0.1
+  use_mlp: true
