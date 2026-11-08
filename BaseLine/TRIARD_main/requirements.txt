@@ -1,0 +1,5 @@
+pandas
+./DAISLabUtilsPy
+psutil
+Levenshtein
+tqdm
