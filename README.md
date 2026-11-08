@@ -51,7 +51,7 @@ The `Data` parameter must be consistent with the `name` field in `/param/param.j
 The `MissType` parameter specifies the missing data mechanism. Supported options include:
 
 ```text
-MCAR, MNAR, MAR, Region
+MCAR, MNAR, MAR
 ```
 
 The `MissRate` parameter controls the missing rate.
