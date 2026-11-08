@@ -71,6 +71,7 @@ To add a new tabular dataset, place the dataset file under one of the following 
 ```bash
 dataset/mix datasets
 dataset/numerical datasets
+dataset/cat datasets
 ```
 
 Then add the corresponding dataset configuration in:
