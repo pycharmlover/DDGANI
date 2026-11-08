@@ -10,6 +10,7 @@ import json
 from sklearn.model_selection import train_test_split
 from torch import optim, nn
 from torch.utils.data import TensorDataset, DataLoader
+sys.path.extend(['/home/extra_home/lc/DDGANI-master/DDGANI-master', '/home/extra_home/lc/DDGANI-master/DDGANI-master/utils','/home/extra_home/lc/DDGANI-master/DDGANI-master/BaseLine'])
 
 import utils.util as util
 from param.data_index import get_data_index
@@ -73,7 +74,8 @@ if __name__ == "__main__":
     parser.add_argument('--AllSeed', type=int, help='miss_seed', default=42)
     parser.add_argument('--UseAttention', type=str, help='use or not use Attention', default='True')
     parser.add_argument('--UseLearner', type=str, help='use or not use Data-Utils plug-in', default='True')
-    parser.add_argument('--UseCFD', type=str, help='use or not use Data-Dependency plug-in', default='True')
+    parser.add_argument('--UseCFD', type=str, help='use or not use Data-Dependency plug-in', default='False')
+    parser.add_argument('--UseFD', type=str, help='use or not use Data-Dependency plug-in', default='False')
 
     args = parser.parse_args()
 
@@ -91,7 +93,9 @@ if __name__ == "__main__":
         pass
     param = params[data_index]
     args.UseCFD = param["use_CFD"]
+    args.UseFD = param["use_FD"]
     use_CFD = args.UseCFD
+    use_FD = args.UseFD
     path = "exp-dir/"+param["name"]+"/"
     try:
         os.mkdir("exp-dir/"+param["name"])
