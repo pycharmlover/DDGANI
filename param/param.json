@@ -19,10 +19,12 @@
 			"L_weight": 0.1,
 			"D_weight": 0.2,
 			"G_D_weight": 1,
-			"CFD_weight": 1
+			"CFD_weight": 1,
+			"FD_weight": 1
 		},
 		"use_Learner": "True",
 		"use_CFD": "False",
+		"use_FD": "False",
 		"fd_cols": []
 	},
 	{	
@@ -45,10 +47,12 @@
 			"L_weight": 0.1,
 			"D_weight": 0.1,
 			"G_D_weight": 1,
-			"CFD_weight": 1
+			"CFD_weight": 1,
+			"FD_weight": 1
 		},
 		"use_Learner": "True",
 		"use_CFD": "False",
+		"use_FD": "False",
 		"fd_cols": []
 	},
     {
@@ -83,10 +87,12 @@
             "L_weight": 0.1,
             "D_weight": 0.1,
             "G_D_weight": 1,
-            "CFD_weight": 10
+            "CFD_weight": 10,
+			"FD_weight": 10
         },
         "use_Learner": "True",
-        "use_CFD": "True",
+        "use_CFD": "False",
+        "use_FD": "True",
         "fd_cols": [
             3,
             4
@@ -117,10 +123,12 @@
 			"L_weight": 1.0,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
-		"use_CFD": "True",
+		"use_CFD": "False",
+		"use_FD": "True",
 		"fd_cols": [0, 1, 2, 3, 4, 5, 6],
 		"dcs": "¬(t0.HospitalName=t1.HospitalName∧t0.City!=t1.City);¬(t0.City=t1.City∧t0.State!=t1.State);¬(t0.HospitalName=t1.HospitalName∧t0.State!=t1.State);¬(t0.HospitalName=t1.HospitalName∧t0.HospitalOwner!=t1.HospitalOwner);¬(t0.MeasureCode=t1.MeasureCode∧t0.Condition!=t1.Condition);¬(t0.MeasureName=t1.MeasureName∧t0.Condition!=t1.Condition);¬(t0.MeasureName=t1.MeasureName∧t0.MeasureCode!=t1.MeasureCode);¬(t0.MeasureCode=t1.MeasureCode∧t0.MeasureName!=t1.MeasureName)",
 		"dco": "¬(t0.City=t1.City∧t0.State!=t1.State);¬(t0.HospitalName=t1.HospitalName∧t0.State!=t1.State);¬(t0.MeasureCode=t1.MeasureCode∧t0.Condition!=t1.Condition);¬(t0.MeasureName=t1.MeasureName∧t0.Condition!=t1.Condition);¬(t0.MeasureName=t1.MeasureName∧t0.MeasureCode!=t1.MeasureCode);¬(t0.MeasureCode=t1.MeasureCode∧t0.MeasureName!=t1.MeasureName);¬(t0.HospitalName=t1.HospitalName∧t0.City=t1.City∧t0.HospitalOwner!=t1.HospitalOwner)",
@@ -146,10 +154,12 @@
 			"L_weight": 1.0,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
-		"use_CFD": "False"
+		"use_CFD": "False",
+		"use_FD": "False"
 	},
 	{	
 		"name":"australian",
@@ -171,10 +181,12 @@
 			"L_weight": 1.0,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
-		"use_CFD": "False"
+		"use_CFD": "False",
+		"use_FD": "False"
 	},
 	{	
 		"name":"tic-tac-toe",
@@ -196,10 +208,12 @@
 			"L_weight": 1.0,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
-		"use_CFD": "False"
+		"use_CFD": "False",
+		"use_FD": "False"
 	},
 	{	
 		"name":"flare",
@@ -221,10 +235,12 @@
 			"L_weight": 1.0,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
-		"use_CFD": "False"
+		"use_CFD": "False",
+		"use_FD": "False"
 	},
 	{	
 		"name":"tax",
@@ -246,54 +262,12 @@
 			"L_weight": 0.1,
 			"D_weight": 1,
 			"CFD_weight": 10,
+			"FD_weight": 10,
 			"G_D_weight": 1
 		},
 		"use_Learner": "True",
 		"use_CFD": "True",
+		"use_FD": "False",
 		"fd_cols": [0, 2, 3, 5, 6]
-	},
-    {
-        "name": "food",
-        "file_path": "dataset/mix datasets/Food.csv",
-        "T": 6,
-        "tau": 3,
-        "batch_size": 128,
-        "categorical_cols": [
-            0,
-            1,
-            2,
-            3,
-            4,
-			5,
-            6
-        ],
-        "top_k": 0.1,
-        "lr": 0.001,
-        "epochs": 100,
-        "steps_per_epoch": 6,
-        "model_name": "minmax",
-        "loss_weight": {
-            "VAE_Res_weight": 100,
-            "VAE_G_weight": 1,
-            "VAE_D_weight": 1,
-            "BCE_weight": 1,
-            "Res_weight": 100,
-            "L_weight": 1,
-            "D_weight": 1,
-            "CFD_weight": 1,
-            "G_D_weight": 100
-        },
-        "use_Learner": "True",
-        "use_CFD": "True",
-        "fd_cols": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5
-        ],
-        "DC_file_path": "dataset/DC/food_constraints_t.txt",
-        "RDC_file_path": "dataset/DC/food_rdc_t.txt"
-    }
+	}
 ]
